@@ -97,3 +97,11 @@ class Escola:
             return self.findAluno(matricula, root.right)
       
         return self.findAluno(matricula, root.left)
+
+    def removeAluno(self, matricula, root):
+      aluno = self.findAluno(matricula, root)
+
+      if aluno is None:
+        return None
+
+      
