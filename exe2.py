@@ -1,4 +1,52 @@
-from tree import Escola
+import sys
+
+class Aluno:
+    def __init__(self, matricula, notas):
+        self.matricula = matricula
+        self.notas = notas
+        self.left = None
+        self.right = None
+
+    def getMedia(self):
+        return sum(self.notas)/len(self.notas)
+
+class Escola:
+    def __init__(self, matricula, notas):
+       self.root = Aluno(matricula, notas)
+
+    def setRecursionLimit(self, value):
+        sys.setrecursionlimit(value)
+
+    def getRootAluno(self):
+        return self.root
+
+    def addAluno(self, matricula, notas, root = None):
+        if root is None:
+            root = self.root
+    
+        if matricula > root.matricula:
+            if root.right is None:
+                root.right = Aluno(matricula, notas)
+            else:
+                self.addAluno(matricula, notas, root.right)
+        else:
+            if root.left is None:
+                root.left = Aluno(matricula, notas)
+            else:
+                self.addAluno(matricula, notas, root.left)
+
+    def findAluno(self, matricula, root):
+        if root is None:
+            return None
+
+        if matricula == root.matricula:
+            return root
+      
+        if matricula > root.matricula:
+            return self.findAluno(matricula, root.right)
+      
+        return self.findAluno(matricula, root.left)
+
 
 # Inicializando árvore & setando nó raiz
 escola = Escola("100", [10, 10, 10, 10])
