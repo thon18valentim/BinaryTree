@@ -61,6 +61,9 @@ class Aluno:
     def getMedia(self):
         return sum(self.notas)/len(self.notas)
 
+    def __str__(self):
+      return str(self.matricula)
+
 class Escola:
     def __init__(self, matricula, notas):
        self.root = Aluno(matricula, notas)
@@ -79,12 +82,12 @@ class Escola:
             if root.right is None:
                 root.right = Aluno(matricula, notas)
             else:
-                self.addAluno(matricula, root.right)
+                self.addAluno(matricula, notas, root.right)
         else:
             if root.left is None:
                 root.left = Aluno(matricula, notas)
             else:
-                self.addAluno(matricula, root.left)
+                self.addAluno(matricula, notas, root.left)
 
     def findAluno(self, matricula, root):
         if root is None:
@@ -98,10 +101,38 @@ class Escola:
       
         return self.findAluno(matricula, root.left)
 
+    def removeAtual(self, root):
+      while root.left is not None and root is not None:
+        root = root.left
+      
+      return root
+
     def removeAluno(self, matricula, root):
       aluno = self.findAluno(matricula, root)
 
       if aluno is None:
         return None
 
+      # Removendo nós sem filhos
+      if aluno.right is None and aluno.left is None:
+        aluno = None
+      elif aluno.left is None: # Removendo nó com filho a direita
+        aluno = aluno.right
+      elif aluno.right is None: # Removendo nó com filho a esquerda
+        aluno = aluno.left
+      else: # Removendo nó com ambos os filhos
+        temp = self.removeAtual(aluno.right)
+        aluno.matricula = temp.matricula
+        aluno.notas = temp.notas
+
+        aluno.left = self.removeAluno(temp.matricula, aluno.right)
+
+      return aluno
+
+    def showTree(self, root):
+      if not root:
+        return
       
+      self.showTree(root.left)
+      print(root)
+      self.showTree(root.right)
