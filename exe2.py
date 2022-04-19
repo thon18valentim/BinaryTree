@@ -30,6 +30,7 @@ while True:
             print("-> Média: %.2f" % aluno.getMedia())
     elif(r == 3):
         matricula = input("\nRemover Aluno (Matricula): ")
-        escola.removeAluno(matricula, root)
+        #escola.removeAluno(matricula, root)
+        escola.remover(matricula)
     elif(r == 4):
         escola.showTree(root)
